@@ -1,3 +1,4 @@
 data/X.npy
 data/y.npy
 n64
+*.pyc
