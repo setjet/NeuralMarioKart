@@ -10,19 +10,13 @@ import config as cfg
 from keras import backend as K
 from scipy.misc import imsave
 
-size = len(np.fromfile('data/y.npy', dtype=float, count=-1, sep=' '))
+def get_data():
+  y = np.genfromtxt('data/y.npy', delimiter=',')
+  X = np.genfromtxt('data/X.npy', delimiter=',').reshape(len(y), cfg.INPUT_HEIGTH, cfg.INPUT_WIDTH, cfg.COLOR_DIM).astype('float32') / 255
+  return X, y
 
-
-print "loading"
-y = np.fromfile('data/y.npy', dtype=float, count=-1, sep=' ').reshape((size/2, 2))
-print "loaded y"
-X = np.fromfile('data/X.npy', dtype=float, count=-1, sep=' ').reshape((size/2, cfg.COLOR_DIM*cfg.INPUT_WIDTH*cfg.INPUT_HEIGTH))
-
-
-X_train = X.reshape(X.shape[0], cfg.INPUT_HEIGTH, cfg.INPUT_WIDTH, cfg.COLOR_DIM).astype('float32') / 255
-
-
-model = Sequential([
+def create_model(X, y):
+  model = Sequential([
     Convolution2D(32, 5, 5, input_shape=(cfg.INPUT_HEIGTH, cfg.INPUT_WIDTH, cfg.COLOR_DIM), name='conv1'),
     Activation('relu'),
     MaxPooling2D(pool_size=(2, 2)),
@@ -37,21 +31,21 @@ model = Sequential([
       
     Flatten(),
     # jees this layer costs much
-    Dense(256),
+    Dense(1024),
     Activation('tanh'),
     Dense(2),
     Activation('tanh'),
-])
+  ])
 
+  adam = Adam(lr=0.0001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
+  model.compile(loss='mse', optimizer=adam)
 
-adam = Adam(lr=0.0001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
-model.compile(loss='mse', optimizer=adam)
+  history = model.fit(X, y, nb_epoch=100, batch_size=32, verbose=1)
+  model.save(cfg.MODEL)
+  return model
 
-history = model.fit(X_train, y, nb_epoch=10, batch_size=50, verbose=1)
-
-
-
-model.save(cfg.MODEL)
+X, y = get_data()
+model = create_model(X, y)
 
 ### Vizzing
 
