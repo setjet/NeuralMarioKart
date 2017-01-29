@@ -37,15 +37,105 @@ def create_model(X, y):
     Activation('tanh'),
   ])
 
-  adam = Adam(lr=0.0001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
-  model.compile(loss='mse', optimizer=adam)
+  model.compile(loss='mse', optimizer='adam')
+  history = model.fit(X, y, nb_epoch=1, batch_size=32, verbose=1)
+  model.save(cfg.MODEL)
+  return model
 
-  history = model.fit(X, y, nb_epoch=100, batch_size=32, verbose=1)
+def create_model2(X, y):
+  model = Sequential([
+    Convolution2D(32, 5, 5, input_shape=(cfg.INPUT_HEIGTH, cfg.INPUT_WIDTH, cfg.COLOR_DIM), name='conv1'),
+    Activation('relu'),
+    MaxPooling2D(pool_size=(2, 2)),
+
+    Convolution2D(64, 5, 5, name='conv2'),
+    Activation('relu'),
+    MaxPooling2D(pool_size=(2, 2)),
+
+    Convolution2D(128, 5, 5, name='conv3'),
+    Activation('relu'),
+    MaxPooling2D(pool_size=(2, 2)),
+      
+    Flatten(),
+    # jees this layer costs much
+    Dense(1024),
+    Activation('tanh'),
+    Dense(2),
+    Activation('tanh'),
+  ])
+
+  model.compile(loss='mse', optimizer='adam')
+  history = model.fit(X, y, nb_epoch=1, batch_size=32, verbose=1)
+  model.save(cfg.MODEL)
+  return model
+
+def create_model3(X, y):
+  model = Sequential([
+    Convolution2D(32, 5, 5, input_shape=(cfg.INPUT_HEIGTH, cfg.INPUT_WIDTH, cfg.COLOR_DIM), name='conv1'),
+    Activation('relu'),
+    MaxPooling2D(pool_size=(2, 2)),
+
+    Convolution2D(64, 3, 3, name='conv2'),
+    Activation('relu'),
+    MaxPooling2D(pool_size=(2, 2)),
+
+    Convolution2D(128, 3, 3, name='conv3'),
+    Activation('relu'),
+    MaxPooling2D(pool_size=(2, 2)),
+
+    Convolution2D(256, 3, 3, name='conv4'),
+    Activation('relu'),
+    MaxPooling2D(pool_size=(2, 2)),
+      
+    Flatten(),
+    # jees this layer costs much
+    Dense(1024),
+    Activation('tanh'),
+    Dense(2),
+    Activation('tanh'),
+  ])
+
+  model.compile(loss='mse', optimizer='adam')
+  history = model.fit(X, y, nb_epoch=1, batch_size=32, verbose=1)
+  model.save(cfg.MODEL)
+  return model
+
+def create_model4(X, y):
+  model = Sequential([
+    Convolution2D(32, 5, 5, input_shape=(cfg.INPUT_HEIGTH, cfg.INPUT_WIDTH, cfg.COLOR_DIM), name='conv1'),
+    Activation('relu'),
+    MaxPooling2D(pool_size=(2, 2)),
+
+    Convolution2D(64, 5, 5, name='conv2'),
+    Activation('relu'),
+    MaxPooling2D(pool_size=(2, 2)),
+
+    Convolution2D(128, 5, 5, name='conv3'),
+    Activation('relu'),
+    MaxPooling2D(pool_size=(2, 2)),
+
+    Convolution2D(256, 5, 5, name='conv4'),
+    Activation('relu'),
+    MaxPooling2D(pool_size=(2, 2)),
+      
+    Flatten(),
+    # jees this layer costs much
+    Dense(1024),
+    Activation('tanh'),
+    Dense(2),
+    Activation('tanh'),
+  ])
+
+  model.compile(loss='mse', optimizer='adam')
+  history = model.fit(X, y, nb_epoch=1, batch_size=32, verbose=1)
   model.save(cfg.MODEL)
   return model
 
 X, y = get_data()
 model = create_model(X, y)
+model = create_model2(X, y)
+model = create_model3(X, y)
+model = create_model4(X, y)
 
 ### Vizzing
 

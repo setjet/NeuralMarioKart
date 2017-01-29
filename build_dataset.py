@@ -19,7 +19,7 @@ def _resolve_incomplete_entries(X, y):
 
 def _save_data(data, name, fmt):
   handle = open('data/' + name + '.npy', 'a')
-  np.savetxt(handle, data, fmt=fmt)
+  np.savetxt(handle, data, fmt=fmt, delimiter=',')
   handle.close()
 
 def capture(capture_rate):
