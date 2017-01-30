@@ -42,100 +42,8 @@ def create_model(X, y):
   model.save(cfg.MODEL)
   return model
 
-def create_model2(X, y):
-  model = Sequential([
-    Convolution2D(32, 5, 5, input_shape=(cfg.INPUT_HEIGTH, cfg.INPUT_WIDTH, cfg.COLOR_DIM), name='conv1'),
-    Activation('relu'),
-    MaxPooling2D(pool_size=(2, 2)),
-
-    Convolution2D(64, 5, 5, name='conv2'),
-    Activation('relu'),
-    MaxPooling2D(pool_size=(2, 2)),
-
-    Convolution2D(128, 5, 5, name='conv3'),
-    Activation('relu'),
-    MaxPooling2D(pool_size=(2, 2)),
-      
-    Flatten(),
-    # jees this layer costs much
-    Dense(1024),
-    Activation('tanh'),
-    Dense(2),
-    Activation('tanh'),
-  ])
-
-  model.compile(loss='mse', optimizer='adam')
-  history = model.fit(X, y, nb_epoch=1, batch_size=32, verbose=1)
-  model.save(cfg.MODEL)
-  return model
-
-def create_model3(X, y):
-  model = Sequential([
-    Convolution2D(32, 5, 5, input_shape=(cfg.INPUT_HEIGTH, cfg.INPUT_WIDTH, cfg.COLOR_DIM), name='conv1'),
-    Activation('relu'),
-    MaxPooling2D(pool_size=(2, 2)),
-
-    Convolution2D(64, 3, 3, name='conv2'),
-    Activation('relu'),
-    MaxPooling2D(pool_size=(2, 2)),
-
-    Convolution2D(128, 3, 3, name='conv3'),
-    Activation('relu'),
-    MaxPooling2D(pool_size=(2, 2)),
-
-    Convolution2D(256, 3, 3, name='conv4'),
-    Activation('relu'),
-    MaxPooling2D(pool_size=(2, 2)),
-      
-    Flatten(),
-    # jees this layer costs much
-    Dense(1024),
-    Activation('tanh'),
-    Dense(2),
-    Activation('tanh'),
-  ])
-
-  model.compile(loss='mse', optimizer='adam')
-  history = model.fit(X, y, nb_epoch=1, batch_size=32, verbose=1)
-  model.save(cfg.MODEL)
-  return model
-
-def create_model4(X, y):
-  model = Sequential([
-    Convolution2D(32, 5, 5, input_shape=(cfg.INPUT_HEIGTH, cfg.INPUT_WIDTH, cfg.COLOR_DIM), name='conv1'),
-    Activation('relu'),
-    MaxPooling2D(pool_size=(2, 2)),
-
-    Convolution2D(64, 5, 5, name='conv2'),
-    Activation('relu'),
-    MaxPooling2D(pool_size=(2, 2)),
-
-    Convolution2D(128, 5, 5, name='conv3'),
-    Activation('relu'),
-    MaxPooling2D(pool_size=(2, 2)),
-
-    Convolution2D(256, 5, 5, name='conv4'),
-    Activation('relu'),
-    MaxPooling2D(pool_size=(2, 2)),
-      
-    Flatten(),
-    # jees this layer costs much
-    Dense(1024),
-    Activation('tanh'),
-    Dense(2),
-    Activation('tanh'),
-  ])
-
-  model.compile(loss='mse', optimizer='adam')
-  history = model.fit(X, y, nb_epoch=1, batch_size=32, verbose=1)
-  model.save(cfg.MODEL)
-  return model
-
 X, y = get_data()
 model = create_model(X, y)
-model = create_model2(X, y)
-model = create_model3(X, y)
-model = create_model4(X, y)
 
 ### Vizzing
 
@@ -198,12 +106,12 @@ def viz(layer_name, noise=False):
 
       # we start from a gray image with some random noise
       if K.image_dim_ordering() == 'th':
-          input_img_data = np.random.random((1, cfg.INPUT_WIDTH, cfg.INPUT_HEIGTH, 1))
+          input_img_data = np.random.random((1, cfg.INPUT_HEIGTH, cfg.INPUT_WIDTH, 1))
       else:
           if noise:
-              input_img_data = np.zeros((1, cfg.INPUT_WIDTH, cfg.INPUT_HEIGTH, 1))
+              input_img_data = np.zeros((1, cfg.INPUT_HEIGTH, cfg.INPUT_WIDTH, 1))
           else:
-              input_img_data = np.array([X_train[0]]) 
+              input_img_data = np.array([X[0]]) 
       input_img_data = (input_img_data - 0.5) * 20 + 128
 
       # we run gradient ascent for 20 steps
@@ -234,20 +142,20 @@ def viz(layer_name, noise=False):
   margin = 5
   width = n * cfg.INPUT_WIDTH + (n - 1) * margin
   height = n * cfg.INPUT_HEIGTH + (n - 1) * margin
-  stitched_filters = np.zeros((width, height, 3))
+  stitched_filters = np.zeros((height, width, cfg.COLOR_DIM))
 
   # fill the picture with our saved filters
   for i in range(n):
       for j in range(n):
           img, loss = kept_filters[i * n + j]
-          stitched_filters[(cfg.INPUT_WIDTH + margin) * i: (cfg.INPUT_WIDTH + margin) * i + cfg.INPUT_WIDTH,
-                           (cfg.INPUT_HEIGTH + margin) * j: (cfg.INPUT_HEIGTH + margin) * j + cfg.INPUT_HEIGTH, :] = img
+          stitched_filters[(cfg.INPUT_HEIGTH + margin) * i: (cfg.INPUT_HEIGTH + margin) * i + cfg.INPUT_HEIGTH,
+                           (cfg.INPUT_WIDTH + margin) * j: (cfg.INPUT_WIDTH + margin) * j + cfg.INPUT_WIDTH, :] = img
 
   # save the result to disk 
   #imsave(layer_name, stitched_filters)
   imsave(layer_name+str(noise)+'.png', stitched_filters)
 
-#viz('conv1')
+viz('conv1')
 #viz('conv2')
 #viz('conv3')
 #viz('conv4')

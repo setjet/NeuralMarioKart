@@ -1,5 +1,3 @@
-import gtk.gdk
-import Image 
 import time
 import numpy as np
 from util import xboxController, _get_pixel_buffer, _capture_image
@@ -27,6 +25,7 @@ def capture(capture_rate):
   y = []
 
   try:
+    print 'Capturing screen...'
     controller = xboxController()
     pb, w = _get_pixel_buffer()
     while True:
