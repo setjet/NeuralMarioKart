@@ -1,15 +1,12 @@
 import numpy as np
 from keras.models import Sequential
-from keras.layers.convolutional import Convolution2D, MaxPooling2D, ZeroPadding2D 
+from keras.layers.convolutional import Convolution2D, MaxPooling2D 
 from keras.layers.core import Activation, Dense, Flatten
 from keras.optimizers import Adam
-from PIL import Image
-import time
-import config as cfg
-from util import viz
 
-from keras import backend as K
-from scipy.misc import imsave
+import config as cfg
+from visualize import visualize
+
 
 def get_data():
   y = np.genfromtxt('data/y.npy', delimiter=',')
@@ -45,9 +42,4 @@ def create_model(X, y):
 X, y = get_data()
 model = create_model(X, y)
 
-
-viz(model, X, 'conv1')
-viz(model, X, 'conv1', noise=True)
-
-
-
+visualize(model, X, 'conv1')
