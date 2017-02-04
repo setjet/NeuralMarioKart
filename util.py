@@ -1,20 +1,18 @@
-import random
 import pygame
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 from keras.models import load_model
 import gtk.gdk  
 import Image 
 import numpy as np
-import time
 import config as cfg
 
 
-def _get_pixel_buffer():
+def get_pixel_buffer():
   w = gtk.gdk.get_default_root_window()
   pb = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, cfg.CAPTURE_WIDTH, cfg.CAPTURE_HEIGTH)
   return pb, w
 
-def _capture_image(pb, w):
+def capture_image(pb, w):
   pixel_buffer = pb.get_from_drawable(w, w.get_colormap(), cfg.CAPTURE_X, cfg.CAPTURE_Y, 0, 0, cfg.CAPTURE_WIDTH, cfg.CAPTURE_HEIGTH)
   image = Image.frombytes("RGB", (cfg.CAPTURE_WIDTH, cfg.CAPTURE_HEIGTH), pixel_buffer.get_pixels())
   if (cfg.GREYSCALE):
@@ -47,12 +45,11 @@ class xboxController(object):
 
 
 class neuralNetwork(object):
-  def __init__(self): 
-    print "neural network"
+  def __init__(self):
     self.model = load_model(cfg.MODEL)
-    self.pb, self.w = _get_pixel_buffer()
+    self.pb, self.w = get_pixel_buffer()
     self.real_controller = xboxController()
-    self.last = [0, 0, 0, 0, 0]
+    self.last_action = [0, 0, 0, 0, 0]
     self.flip = 0
 
     try:
@@ -68,17 +65,17 @@ class neuralNetwork(object):
     manual_override = self.real_controller.manual_override()
     if (manual_override):
       return self.real_controller.read()
-    elif self.flip == 5: # too slow otherwise...
+    elif self.flip == 5: # Update action every 5 calls
       image = _capture_image(self.pb, self.w)
       vector = np.asarray(image).reshape(1, cfg.INPUT_HEIGTH, cfg.INPUT_WIDTH, cfg.COLOR_DIM).astype('float32') / 255
 
       pred = self.model.predict(vector)[0]
-      self.last = [pred[0]*cfg.JOYSTICK_NORMALIZER, 0, round(pred[1]), 0, 0] # only do x and a
+      self.last_action = [pred[0]*cfg.JOYSTICK_NORMALIZER, 0, round(pred[1]), 0, 0] # only do x and a
       self.flip = 0
-      return self.last
+      return self.last_action
     else:
       self.flip = self.flip + 1
-      return self.last
+      return self.last_action
 
 
 def run_server(input_device, port = 8082):

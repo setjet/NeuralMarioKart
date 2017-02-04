@@ -1,12 +1,12 @@
 import time
 import numpy as np
-from util import xboxController, _get_pixel_buffer, _capture_image
+from util import xboxController, get_pixel_buffer, capture_image
 import config as cfg
 
 
 def _capture_controller(controller):
   c_in = controller.read()
-  return [c_in[0]/cfg.JOYSTICK_NORMALIZER, c_in[2]] # only do x and a
+  return [c_in[0]/cfg.JOYSTICK_NORMALIZER, c_in[2]] # only do x-axis and a
 
 def _resolve_incomplete_entries(X, y):
   del X[-1]
@@ -27,10 +27,10 @@ def capture(capture_rate):
   try:
     print 'Capturing screen...'
     controller = xboxController()
-    pb, w = _get_pixel_buffer()
+    pb, w = get_pixel_buffer()
     while True:
       time.sleep(capture_rate)
-      image = _capture_image(pb, w)
+      image = capture_image(pb, w)
       action = _capture_controller(controller)
 
       X.append(list(np.asarray(image).flatten()))
