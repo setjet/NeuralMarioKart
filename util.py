@@ -24,6 +24,7 @@ def capture_image(pb, w):
 class xboxController(object):
   def __init__(self):
     try:
+      print "Starting controller"
       pygame.init()
       self.joystick = pygame.joystick.Joystick(0)
       self.joystick.init()
@@ -53,6 +54,7 @@ class neuralNetwork(object):
     self.flip = 0
 
     try:
+      print "Starting neuralnet"
       pygame.init()
       self.joystick = pygame.joystick.Joystick(0)
       self.joystick.init()
@@ -66,7 +68,7 @@ class neuralNetwork(object):
     if (manual_override):
       return self.real_controller.read()
     elif self.flip == 5: # Update action every 5 calls
-      image = _capture_image(self.pb, self.w)
+      image = capture_image(self.pb, self.w)
       vector = np.asarray(image).reshape(1, cfg.INPUT_HEIGTH, cfg.INPUT_WIDTH, cfg.COLOR_DIM).astype('float32') / 255
 
       pred = self.model.predict(vector)[0]

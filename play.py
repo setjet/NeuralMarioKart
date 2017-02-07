@@ -7,9 +7,10 @@ def run_emulator():
   os.system("cd n64/test; ./mupen64plus --input ../source/mupen64plus-input-bot/mupen64plus-input-bot.so MarioKart64.n64")
 
 def run_communicator():
-  if sys.argv[1] in ['NN','AI','NeuralNetwork','Neuralnetwork']:
+  if len(sys.argv) > 1 and sys.argv[1] in ['NN','AI','NeuralNetwork','Neuralnetwork']:
     run_server(neuralNetwork())
   else:
+    print "whoop"
     run_server(xboxController())
 
 p1 = Process(target=run_emulator)
