@@ -67,7 +67,7 @@ class neuralNetwork(object):
     manual_override = self.real_controller.manual_override()
     if (manual_override):
       return self.real_controller.read()
-    elif self.flip == 5: # Update action every 5 calls
+    elif self.flip == 1: # Update action every 5 calls
       image = capture_image(self.pb, self.w)
       vector = np.asarray(image).reshape(1, cfg.INPUT_HEIGTH, cfg.INPUT_WIDTH, cfg.COLOR_DIM).astype('float32') / 255
 
