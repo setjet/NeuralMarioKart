@@ -1,5 +1,5 @@
 # NeuralMarioKart
-A neural network that is able to play mariokart with pure pixels as input, and xbox controller actions as output.
+A set of scripts to record a dataset of actions and pixels fetched from a nintendo 64 emulator, which are then used to train a neural network that is able to play mariokart.
 
 TODO: 
 add references, refactor, upload sample, add description, update model (reduce overfit: dropout/reg/early stop/smaller model, diversify validation set more), and video of neural network in action
