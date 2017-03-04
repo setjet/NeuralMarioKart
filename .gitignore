@@ -1,4 +1,4 @@
-data/X.npy
-data/y.npy
+X.npy
+y.npy
 n64
 *.pyc
