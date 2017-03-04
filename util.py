@@ -21,7 +21,7 @@ def capture_image(pb, w):
   return image
 
 
-class xboxController(object):
+class XboxController(object):
   def __init__(self):
     try:
       print "Starting controller"
@@ -45,13 +45,12 @@ class xboxController(object):
     return self.joystick.get_button(4) == 1
 
 
-class neuralNetwork(object):
+class NeuralNetwork(object):
   def __init__(self):
     self.model = load_model(cfg.MODEL)
     self.pb, self.w = get_pixel_buffer()
-    self.real_controller = xboxController()
+    self.real_controller = XboxController()
     self.last_action = [0, 0, 0, 0, 0]
-    self.flip = 0
 
     try:
       print "Starting neuralnet"
@@ -67,16 +66,12 @@ class neuralNetwork(object):
     manual_override = self.real_controller.manual_override()
     if (manual_override):
       return self.real_controller.read()
-    elif self.flip == 1: # Update action every 5 calls
+    else:
       image = capture_image(self.pb, self.w)
       vector = np.asarray(image).reshape(1, cfg.INPUT_HEIGTH, cfg.INPUT_WIDTH, cfg.COLOR_DIM).astype('float32') / 255
-
       pred = self.model.predict(vector)[0]
       self.last_action = [pred[0]*cfg.JOYSTICK_NORMALIZER, 0, round(pred[1]), 0, 0] # only do x and a
       self.flip = 0
-      return self.last_action
-    else:
-      self.flip = self.flip + 1
       return self.last_action
 
 
@@ -89,7 +84,6 @@ def run_server(input_device, port = 8082):
       self.send_response(200)
       self.send_header("Content-type", "text/plain")
       self.end_headers()
-
       self.wfile.write(input_device.read())
       return
 

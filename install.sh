@@ -9,5 +9,3 @@ git clone https://github.com/kevinhughes27/mupen64plus-input-bot
 cd mupen64plus-input-bot
 echo "************************************ Making emulator input plugin"
 make all
-
-

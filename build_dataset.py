@@ -1,6 +1,6 @@
 import time
 import numpy as np
-from util import xboxController, get_pixel_buffer, capture_image
+from util import XboxController, get_pixel_buffer, capture_image
 import config as cfg
 
 
@@ -26,7 +26,7 @@ def capture(capture_rate):
 
   try:
     print 'Capturing screen...'
-    controller = xboxController()
+    controller = XboxController()
     pb, w = get_pixel_buffer()
     while True:
       time.sleep(capture_rate)
@@ -42,6 +42,4 @@ def capture(capture_rate):
     _save_data(X, 'X', '%d')
     _save_data(y, 'y', '%.3f')
 
-
-if __name__ == "__main__":
-    capture(0.2)
+capture(0.2)
