@@ -62,7 +62,6 @@ class NeuralNetwork(object):
 
   def read(self):
     pygame.event.pump()
-
     manual_override = self.real_controller.manual_override()
     if (manual_override):
       return self.real_controller.read()
