@@ -1,7 +1,7 @@
 import os
 import sys
 from multiprocessing import Process
-from util import run_server, XboxController, NeuralNetwork
+from setup.util import run_server, XboxController, NeuralNetwork
 
 def run_emulator():
   os.system("cd n64/test; ./mupen64plus --input ../source/mupen64plus-input-bot/mupen64plus-input-bot.so MarioKart64.n64")

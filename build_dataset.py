@@ -1,7 +1,7 @@
 import time
 import numpy as np
-from util import XboxController, get_pixel_buffer, capture_image
-import config as cfg
+from setup.util import XboxController, get_pixel_buffer, capture_image
+import setup.config as cfg
 
 
 def _capture_controller(controller):
@@ -16,7 +16,7 @@ def _resolve_incomplete_entries(X, y):
   return X, y
 
 def _save_data(data, name, fmt):
-  handle = open(name + '.npy', 'a')
+  handle = open(name, 'a')
   np.savetxt(handle, data, fmt=fmt)
   handle.close()
 
@@ -39,7 +39,7 @@ def capture(capture_rate):
   except KeyboardInterrupt:
     print '^C received, writing to file'
     X, y = _resolve_incomplete_entries(X, y)
-    _save_data(X, 'X', '%d')
-    _save_data(y, 'y', '%.3f')
+    _save_data(X, 'data/X.npy', '%d')
+    _save_data(y, 'data/y.npy', '%.3f')
 
 capture(0.2)

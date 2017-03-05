@@ -1,4 +1,4 @@
-MODEL='model.h5'
+MODEL='model/model.h5'
 
 GREYSCALE=False
 COLOR_DIM = 1 if GREYSCALE else 3

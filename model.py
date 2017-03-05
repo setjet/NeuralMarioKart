@@ -1,5 +1,5 @@
 import numpy as np
-import config as cfg
+import setup.config as cfg
 from keras.models import Sequential
 from keras.layers.convolutional import Convolution2D, MaxPooling2D 
 from keras.layers.core import Activation, Dense, Flatten, Dropout
@@ -7,9 +7,9 @@ from keras.optimizers import Adam
 import matplotlib.pyplot as plt
 
 def _get_data():
-  size = len(np.fromfile('../data/y.npy', dtype=np.float32, count=-1, sep=' '))
-  y = np.fromfile('../data/y.npy', count=-1, dtype=np.float32, sep=' ').reshape((size/2, 2))
-  X = np.fromfile('../data/X.npy', count=-1, dtype=np.float32, sep=' ').reshape(size/2, cfg.INPUT_HEIGTH, cfg.INPUT_WIDTH, cfg.COLOR_DIM) / 255
+  size = len(np.fromfile('data/y.npy', dtype=np.float32, count=-1, sep=' '))
+  y = np.fromfile('data/y.npy', count=-1, dtype=np.float32, sep=' ').reshape((size/2, 2))
+  X = np.fromfile('data/X.npy', count=-1, dtype=np.float32, sep=' ').reshape(size/2, cfg.INPUT_HEIGTH, cfg.INPUT_WIDTH, cfg.COLOR_DIM) / 255
   return X, y
 
 def _visualize_loss(history):
@@ -20,7 +20,7 @@ def _visualize_loss(history):
   plt.xlabel('epoch')
   plt.legend(['train', 'test'], loc='upper left')
   fig = plt.gcf()
-  fig.savefig('fig1.png')
+  fig.savefig('model/loss.png')
   plt.show()
 
 def create_model():
@@ -48,7 +48,7 @@ def create_model():
   ])
 
   model.compile(loss='mse', optimizer='adam')
-  history = model.fit(X, y, validation_split=0.33, nb_epoch=25, batch_size=32, verbose=1)
+  history = model.fit(X, y, validation_split=0.33, nb_epoch=1, batch_size=32, verbose=1)
   model.save(cfg.MODEL)
   _visualize_loss(history)
 
