@@ -6,7 +6,7 @@ It is able to autonomously drve around the tracks with a human level performance
 
 ![Jungle.gif](https://giphy.com/gifs/l4FGrIIvbzkJS0ni8)
 
-![RoyalRaceway.gif](http://i.giphy.com/3oKIPsKaFQEsk8jR3a.gif)
+![RoyalRaceway.gif](http://i.giphy.com/l4FGCEupEyM5YtFFS.gif)
 
 A complete game can be found here:
 https://youtu.be/g_ZIsCe1COk
