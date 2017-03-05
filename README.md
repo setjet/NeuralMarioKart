@@ -1,7 +1,14 @@
 # NeuralMarioKart
 A set of scripts to record a dataset of actions and pixels fetched from a nintendo 64 emulator and xbox controller, which are then used to train a neural network that is able to play mariokart.
 
-A brief test run example of a completely autonomous run:
+It is able to autonomously drve around the tracks with a human level performance
+![MarioRaceway.gif](https://giphy.com/gifs/l4FGAwbQKvWDwHxba)
+
+![Jungle.gif](https://giphy.com/gifs/l4FGrIIvbzkJS0ni8)
+
+![RoyalRaceway.gif](https://giphy.com/gifs/3oKIPsKaFQEsk8jR3a)
+
+A complete game can be found here:
 https://youtu.be/g_ZIsCe1COk
 
 ## Neural network
