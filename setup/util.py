@@ -4,7 +4,7 @@ from keras.models import load_model
 import gtk.gdk  
 import Image 
 import numpy as np
-import setup.config as cfg
+import config as cfg
 
 
 def get_pixel_buffer():
