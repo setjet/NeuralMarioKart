@@ -1,5 +1,6 @@
 #!/bin/sh
-cd n64
+mkdir ../data
+cd ../n64
 ./m64p_get.sh && ./m64p_build.sh && ./m64p_test.sh
 mv MarioKart64.n64 test/MarioKart64.n64
 echo "************************************ Running test, close if working properly"
