@@ -2,11 +2,12 @@
 A set of scripts to record a dataset of actions and pixels fetched from a nintendo 64 emulator and xbox controller, which are then used to train a neural network that is able to play mariokart.
 
 It is able to autonomously drve around the tracks with a human level performance
-![MarioRaceway.gif](https://giphy.com/gifs/l4FGAwbQKvWDwHxba)
 
-![Jungle.gif](https://giphy.com/gifs/l4FGrIIvbzkJS0ni8)
+![MarioRaceway.gif](https://thumbs.gfycat.com/HardDefiantAustrianpinscher-size_restricted.gif)
 
-![RoyalRaceway.gif](http://i.giphy.com/l4FGCEupEyM5YtFFS.gif)
+![Jungle.gif](https://thumbs.gfycat.com/InnocentCavernousImperatorangel-size_restricted.gif)
+
+![RoyalRaceway.gif](https://thumbs.gfycat.com/CooperativeHoarseHookersealion-size_restricted.gif)
 
 A complete game can be found here:
 https://youtu.be/g_ZIsCe1COk
